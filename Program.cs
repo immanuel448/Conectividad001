@@ -9,7 +9,7 @@ namespace Conectividad
 
         public static void Main(string [] args)
         {
-            string datosBD = "Server=.;Database=miBD;Trusted_Connection=true;TrustServerCertificate=true";
+            string datosBD = "Server=.;Database=miBD;Trusted_Connection=true;TrustServerCertificate=true;";
             Seleccionar(datosBD);
         }
 
@@ -58,6 +58,124 @@ namespace Conectividad
             {
                 Console.WriteLine($"Error al {accion}: {ex.Message}");
                 
+            }
+        }
+
+        private static void Insertar(string datosBD)
+        {
+            accion = "Insertar";
+            try
+            {
+                //se establece la conexión con la BD
+                using (SqlConnection conexion = new SqlConnection(datosBD))
+                {
+                    string instruccion = "INSERT INTO miTabla (nombre, edad, activo) VALUES (@nombre, @edad, @activo)";
+                    conexion.Open();
+
+                    //se manda el comando
+                    using (SqlCommand comando = new SqlCommand(instruccion, conexion))
+                    {
+                        //se cargan los parámetros
+                        comando.Parameters.AddWithValue("@nombre", "Fulanito");
+                        comando.Parameters.AddWithValue("@edad", 33);
+                        comando.Parameters.AddWithValue("@activo", true);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            //se realizó la consulta
+                            Console.WriteLine($"Éxito al {accion}");
+                        }
+                        else
+                        {
+                            //no hizo la consulta
+                            Console.WriteLine($"Fracaso al {accion}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al {accion}: {ex.Message}");
+
+            }
+        }
+
+        private static void Actualizar(string datosBD)
+        {
+            accion = "Actualizar";
+            try
+            {
+                //se establece la conexión con la BD
+                using (SqlConnection conexion = new SqlConnection(datosBD))
+                {
+                    string instruccion = "UPDATE miTabla SET nombre = @nombre, edad = @edad WHERE  id = @id";
+                    conexion.Open();
+
+                    //se manda el comando
+                    using (SqlCommand comando = new SqlCommand(instruccion, conexion))
+                    {
+                        //se cargan los parámetros
+                        comando.Parameters.AddWithValue("@nombre", "Cambiado");
+                        comando.Parameters.AddWithValue("@edad", 10);
+                        comando.Parameters.AddWithValue("@id", 6);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            //se realizó la consulta
+                            Console.WriteLine($"Éxito al {accion}");
+                        }
+                        else
+                        {
+                            //no hizo la consulta
+                            Console.WriteLine($"Fracaso al {accion}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al {accion}: {ex.Message}");
+
+            }
+        }
+
+        private static void Delete(string datosBD)
+        {
+            accion = "Borrar";
+            try
+            {
+                //se establece la conexión con la BD
+                using (SqlConnection conexion = new SqlConnection(datosBD))
+                {
+                    string instruccion = "DELETE FROM miTabla WHERE  id = @id";
+                    conexion.Open();
+
+                    //se manda el comando
+                    using (SqlCommand comando = new SqlCommand(instruccion, conexion))
+                    {
+                        //se cargan los parámetros
+                        comando.Parameters.AddWithValue("@id", 3);
+
+                        int filasAfectadas = comando.ExecuteNonQuery();
+                        if (filasAfectadas > 0)
+                        {
+                            //se realizó la consulta
+                            Console.WriteLine($"Éxito al {accion}");
+                        }
+                        else
+                        {
+                            //no hizo la consulta
+                            Console.WriteLine($"Fracaso al {accion}");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al {accion}: {ex.Message}");
+
             }
         }
     }
