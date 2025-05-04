@@ -81,23 +81,17 @@ namespace Conectividad
                         comando.Parameters.AddWithValue("@activo", true);
 
                         int filasAfectadas = comando.ExecuteNonQuery();
-                        if (filasAfectadas > 0)
-                        {
-                            //se realizó la consulta
-                            Console.WriteLine($"Éxito al {accion}");
-                        }
-                        else
-                        {
-                            //no hizo la consulta
-                            Console.WriteLine($"Fracaso al {accion}");
-                        }
+
+                        //operador ternario, para anunciar si realizó o no la acción
+                        Console.WriteLine(filasAfectadas > 0
+                            ? $"Éxito al {accion}"
+                            : $"Fracaso al {accion}");
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al {accion}: {ex.Message}");
-
             }
         }
 
@@ -121,16 +115,11 @@ namespace Conectividad
                         comando.Parameters.AddWithValue("@id", 6);
 
                         int filasAfectadas = comando.ExecuteNonQuery();
-                        if (filasAfectadas > 0)
-                        {
-                            //se realizó la consulta
-                            Console.WriteLine($"Éxito al {accion}");
-                        }
-                        else
-                        {
-                            //no hizo la consulta
-                            Console.WriteLine($"Fracaso al {accion}");
-                        }
+
+                        //operador ternario, para anunciar si realizó o no la acción
+                        Console.WriteLine(filasAfectadas > 0
+                            ? $"Éxito al {accion}"
+                            : $"Fracaso al {accion}");
                     }
                 }
             }
@@ -159,16 +148,11 @@ namespace Conectividad
                         comando.Parameters.AddWithValue("@id", 3);
 
                         int filasAfectadas = comando.ExecuteNonQuery();
-                        if (filasAfectadas > 0)
-                        {
-                            //se realizó la consulta
-                            Console.WriteLine($"Éxito al {accion}");
-                        }
-                        else
-                        {
-                            //no hizo la consulta
-                            Console.WriteLine($"Fracaso al {accion}");
-                        }
+
+                        //operador ternario, para anunciar si realizó o no la acción
+                        Console.WriteLine(filasAfectadas > 0
+                            ? $"Éxito al {accion}"
+                            : $"Fracaso al {accion}");
                     }
                 }
             }
