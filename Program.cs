@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Conectividad001;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace Conectividad
@@ -10,26 +11,41 @@ namespace Conectividad
         public static void Main(string [] args)
         {
             string datosBD = "Server=.;Database=miBD;Trusted_Connection=true;TrustServerCertificate=true;";
-            Seleccionar(datosBD);
+            var resultados = Seleccionar(datosBD);
+            int contar = 1;
+            foreach (var item in resultados)
+            {
+                if (item.Descripcion != null)
+                {
+                    Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n Nombre: {item.Nombre},\n Edad: {item.Edad},\n Activo: {item.Activo}");
+                }
+                else
+                {
+                    Console.WriteLine("!!!" + item.Descripcion);
+                }
+            }
         }
 
-        private static void Seleccionar(string datosBD)
+        private static List<MiTablaRepositorio> Seleccionar(string datosBD)
         {
             accion = "Seleccionar";
+            var resultados = new List<MiTablaRepositorio>();
+
             try
             {
                 //se establece la conexión con la BD
                 using (SqlConnection conexion = new SqlConnection(datosBD))
                 {
-                    string instruccion = "SELECT * FROM miTabla WHERE id IN (@id01, @id02)";
+                    string instruccion = "SELECT * FROM miTabla WHERE id IN (@id01, @id02, @id03)";
                     conexion.Open();
 
                     //se manda el comando
                     using (SqlCommand comando = new SqlCommand(instruccion, conexion))
                     {
                         //se cargan los parámetros
-                        comando.Parameters.AddWithValue("@id01", 5);
-                        comando.Parameters.AddWithValue("@id02", 7);
+                        comando.Parameters.AddWithValue("@id01", 1);
+                        comando.Parameters.AddWithValue("@id02", 2);
+                        comando.Parameters.AddWithValue("@id03", 3);
 
                         using (SqlDataReader reader = comando.ExecuteReader())
                         {
@@ -39,25 +55,31 @@ namespace Conectividad
                                 int contar = 1;
                                 while (reader.Read())
                                 {
-                                    string nombre = reader.IsDBNull(1)? "vacío": reader.GetString(1);
-                                    int edad= reader.IsDBNull(2)? 0: reader.GetInt32(2);
-                                    bool activo= reader.IsDBNull(3)? false: reader.GetBoolean(3);
-                                    Console.WriteLine($"-------------------- \n El dato número {contar++} es:\n Nombre: {nombre},\n Edad: {edad},\n Activo: {activo}");
+                                    string nombre = reader.IsDBNull(0)? "vacío": reader.GetString(0);
+                                    int edad= reader.IsDBNull(1)? 0: reader.GetInt32(1);
+                                    bool activo= reader.IsDBNull(2)? false: reader.GetBoolean(2);
+
+                                    resultados.Add(new MiTablaRepositorio(nombre, edad, activo));
+                                    //Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n Nombre: {nombre},\n Edad: {edad},\n Activo: {activo}");
                                 }
+                                return resultados;
                             }
                             else
                             {
-                                Console.WriteLine($"No se encontraron datos al {accion}");
+                                //Console.WriteLine($"No se encontraron datos al {accion}");
+                                resultados.Add(new MiTablaRepositorio("", 0, false, $"No se encontraron datos al {accion}"));
+                                return resultados;
                             }
                         }
                     }
-
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al {accion}: {ex.Message}");
-                
+                //Console.WriteLine($"Error al {accion}: {ex.Message}");
+                resultados.Add(new MiTablaRepositorio("", 0, false, $"Error al {accion}: {ex.Message}"));
+
+                return resultados;
             }
         }
 
@@ -126,11 +148,10 @@ namespace Conectividad
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al {accion}: {ex.Message}");
-
             }
         }
 
-        private static void Delete(string datosBD)
+        private static void Borrar(string datosBD)
         {
             accion = "Borrar";
             try
@@ -145,7 +166,7 @@ namespace Conectividad
                     using (SqlCommand comando = new SqlCommand(instruccion, conexion))
                     {
                         //se cargan los parámetros
-                        comando.Parameters.AddWithValue("@id", 3);
+                        comando.Parameters.AddWithValue("@id", 5);
 
                         int filasAfectadas = comando.ExecuteNonQuery();
 
@@ -159,7 +180,6 @@ namespace Conectividad
             catch (Exception ex)
             {
                 Console.WriteLine($"Error al {accion}: {ex.Message}");
-
             }
         }
     }
