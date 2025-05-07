@@ -11,12 +11,17 @@ namespace Conectividad
         public static void Main(string [] args)
         {
             string datosBD = "Server=.;Database=miBD;Trusted_Connection=true;TrustServerCertificate=true;";
+            Console.WriteLine("e0001");
+            
+            //Seleccionar(datosBD);
+
             var resultados = Seleccionar(datosBD);
             int contar = 1;
             foreach (var item in resultados)
             {
-                if (item.Descripcion != null)
+                if (item.Descripcion == null)
                 {
+                    //sin descripción
                     Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n Nombre: {item.Nombre},\n Edad: {item.Edad},\n Activo: {item.Activo}");
                 }
                 else
@@ -26,11 +31,12 @@ namespace Conectividad
             }
         }
 
+
         private static List<MiTablaRepositorio> Seleccionar(string datosBD)
         {
             accion = "Seleccionar";
             var resultados = new List<MiTablaRepositorio>();
-
+            Console.WriteLine("e0002");
             try
             {
                 //se establece la conexión con la BD
@@ -55,12 +61,13 @@ namespace Conectividad
                                 int contar = 1;
                                 while (reader.Read())
                                 {
-                                    string nombre = reader.IsDBNull(0)? "vacío": reader.GetString(0);
-                                    int edad= reader.IsDBNull(1)? 0: reader.GetInt32(1);
-                                    bool activo= reader.IsDBNull(2)? false: reader.GetBoolean(2);
+                                    string nombre = reader.IsDBNull(1) ? "vacío" : reader.GetString(1);
+                                    int edad = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
+                                    bool activo = reader.IsDBNull(3) ? false : reader.GetBoolean(3);
+
+                                    //Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n Nombre: {nombre},\n Edad: {edad},\n Activo: {activo}");
 
                                     resultados.Add(new MiTablaRepositorio(nombre, edad, activo));
-                                    //Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n Nombre: {nombre},\n Edad: {edad},\n Activo: {activo}");
                                 }
                                 return resultados;
                             }
@@ -132,9 +139,9 @@ namespace Conectividad
                     using (SqlCommand comando = new SqlCommand(instruccion, conexion))
                     {
                         //se cargan los parámetros
-                        comando.Parameters.AddWithValue("@nombre", "Cambiado");
+                        comando.Parameters.AddWithValue("@nombre", "Para borrar");
                         comando.Parameters.AddWithValue("@edad", 10);
-                        comando.Parameters.AddWithValue("@id", 6);
+                        comando.Parameters.AddWithValue("@id", 5);
 
                         int filasAfectadas = comando.ExecuteNonQuery();
 
