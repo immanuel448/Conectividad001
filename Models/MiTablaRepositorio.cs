@@ -7,14 +7,14 @@ using Microsoft.Data.SqlClient;
 
 namespace ConectividadApp.Models
 {
-{
     public class MiTablaRepositorio
     {
+        //esta variable es para las clases individuales
         private static string accion {  get; set; }
 
         public List<GuardarDatosmiTabla> Seleccionar(string datosBD, string instruccion, SqlParameter[] parametros)
         {
-            var resultados = new List<GuardarDatosmiTabla>();
+            var resultados = new List<GuardarDatosmiTabla>(); 
             try
             {
                 using (SqlConnection conexion = new SqlConnection(datosBD))
@@ -53,39 +53,65 @@ namespace ConectividadApp.Models
             return resultados;
         }
 
-        private static void Insertar(string datosBD)
+        public string Modificar_guardar(string accion, string datosBD, string instruccion, SqlParameter[] parametros)
         {
-            accion = "Insertar";
+            string descripcion = null;
+
             try
             {
-                //se establece la conexión con la BD
                 using (SqlConnection conexion = new SqlConnection(datosBD))
                 {
-                    string instruccion = "INSERT INTO miTabla (nombre, edad, activo) VALUES (@nombre, @edad, @activo)";
                     conexion.Open();
-
-                    //se manda el comando
                     using (SqlCommand comando = new SqlCommand(instruccion, conexion))
                     {
-                        //se cargan los parámetros
-                        comando.Parameters.AddWithValue("@nombre", "Fulanito");
-                        comando.Parameters.AddWithValue("@edad", 33);
-                        comando.Parameters.AddWithValue("@activo", true);
+                        comando.Parameters.AddRange(parametros);
 
-                        int filasAfectadas = comando.ExecuteNonQuery();
+                        int resultadoConsulta = comando.ExecuteNonQuery();
 
-                        //operador ternario, para anunciar si realizó o no la acción
-                        Console.WriteLine(filasAfectadas > 0
-                            ? $"Éxito al {accion}"
-                            : $"Fracaso al {accion}");
+                        return resultadoConsulta > 0 ? $"Éxito al {accion}": $"No realizó ninguna acción al intentar {accion}";
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al {accion}: {ex.Message}");
+                descripcion = $"Error: {ex.Message}";
             }
+            return descripcion;
         }
+
+        //private static void Insertar(string datosBD)
+        //{
+        //    accion = "Insertar";
+        //    try
+        //    {
+        //        //se establece la conexión con la BD
+        //        using (SqlConnection conexion = new SqlConnection(datosBD))
+        //        {
+        //            string instruccion = "INSERT INTO miTabla (nombre, edad, activo) VALUES (@nombre, @edad, @activo)";
+        //            conexion.Open();
+
+        //            //se manda el comando
+        //            using (SqlCommand comando = new SqlCommand(instruccion, conexion))
+        //            {
+        //                //se cargan los parámetros
+        //                comando.Parameters.AddWithValue("@nombre", "Fulanito");
+        //                comando.Parameters.AddWithValue("@edad", 33);
+        //                comando.Parameters.AddWithValue("@activo", true);
+
+        //                int filasAfectadas = comando.ExecuteNonQuery();
+
+        //                //operador ternario, para anunciar si realizó o no la acción
+        //                Console.WriteLine(filasAfectadas > 0
+        //                    ? $"Éxito al {accion}"
+        //                    : $"Fracaso al {accion}");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error al {accion}: {ex.Message}");
+        //    }
+        //}
 
         private static void Actualizar(string datosBD)
         {
