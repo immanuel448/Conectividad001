@@ -9,13 +9,17 @@ namespace ConectividadApp.Models
 {
     public class GuardarDatosmiTabla
     {
+        //todos los datos de la tabla "miTabla"
+        public int Identificador { get; set; }
         public string Nombre { get; set; }
         public int Edad { get; set; }
         public bool Activo { get; set; }
         public string Errores { get; set; }
 
-        public GuardarDatosmiTabla(string nombre, int edad, bool activo, string errores = null)
+
+        public GuardarDatosmiTabla(int identificador, string nombre, int edad, bool activo, string errores = null)
         {
+            Identificador = identificador;
             Nombre = nombre;
             Edad = edad;
             Activo = activo;

@@ -17,13 +17,14 @@ namespace ConectividadApp
 
             Seleccionar(datosBD);
             //Insertar(datosBD);
-
         }
+
 
         private static void Seleccionar(string CadenaConexion)
         {
+            var idsParaBuscar = new List<int>() { 2, 3, 5, 8, 11 };
             //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
-            var resultados = controller.SeleccionarDatos(CadenaConexion);
+            var resultados = controller.SeleccionarDatos(CadenaConexion, idsParaBuscar);
             int contar = 1;
             foreach (var item in resultados)
             {

@@ -9,9 +9,7 @@ namespace ConectividadApp.Models
 {
     public class MiTablaRepositorio
     {
-        //esta variable es para las clases individuales
-        private static string accion {  get; set; }
-
+        //mètodo exclusivo para seleccionar datos de la BD
         public List<GuardarDatosmiTabla> Seleccionar(string datosBD, string instruccion, SqlParameter[] parametros)
         {
             var resultados = new List<GuardarDatosmiTabla>(); 
@@ -30,16 +28,17 @@ namespace ConectividadApp.Models
                             {
                                 while (reader.Read())
                                 {
+                                    int identificador = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
                                     string nombre = reader.IsDBNull(1) ? "vacío" : reader.GetString(1);
                                     int edad = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
                                     bool activo = reader.IsDBNull(3) ? false : reader.GetBoolean(3);
 
-                                    resultados.Add(new GuardarDatosmiTabla(nombre, edad, activo));
+                                    resultados.Add(new GuardarDatosmiTabla(identificador, nombre, edad, activo));
                                 }
                             }
                             else
                             {
-                                resultados.Add(new GuardarDatosmiTabla("", 0, false, "No se encontraron datos."));
+                                resultados.Add(new GuardarDatosmiTabla(0, "", 0, false, "No se encontraron datos."));
                             }
                         }
                     }
@@ -47,12 +46,13 @@ namespace ConectividadApp.Models
             }
             catch (Exception ex)
             {
-                resultados.Add(new GuardarDatosmiTabla("", 0, false, $"Error: {ex.Message}"));
+                resultados.Add(new GuardarDatosmiTabla(0, "", 0, false, $"Error: {ex.Message}"));
             }
 
             return resultados;
         }
 
+        //mètodo comùn para Create, Update y Delete
         public string Modificar_guardar(string accion, string datosBD, string instruccion, SqlParameter[] parametros)
         {
             string descripcion = null;
@@ -78,105 +78,5 @@ namespace ConectividadApp.Models
             }
             return descripcion;
         }
-
-        //private static void Insertar(string datosBD)
-        //{
-        //    accion = "Insertar";
-        //    try
-        //    {
-        //        //se establece la conexión con la BD
-        //        using (SqlConnection conexion = new SqlConnection(datosBD))
-        //        {
-        //            string instruccion = "INSERT INTO miTabla (nombre, edad, activo) VALUES (@nombre, @edad, @activo)";
-        //            conexion.Open();
-
-        //            //se manda el comando
-        //            using (SqlCommand comando = new SqlCommand(instruccion, conexion))
-        //            {
-        //                //se cargan los parámetros
-        //                comando.Parameters.AddWithValue("@nombre", "Fulanito");
-        //                comando.Parameters.AddWithValue("@edad", 33);
-        //                comando.Parameters.AddWithValue("@activo", true);
-
-        //                int filasAfectadas = comando.ExecuteNonQuery();
-
-        //                //operador ternario, para anunciar si realizó o no la acción
-        //                Console.WriteLine(filasAfectadas > 0
-        //                    ? $"Éxito al {accion}"
-        //                    : $"Fracaso al {accion}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error al {accion}: {ex.Message}");
-        //    }
-        //}
-
-        //private static void Actualizar(string datosBD)
-        //{
-        //    accion = "Actualizar";
-        //    try
-        //    {
-        //        //se establece la conexión con la BD
-        //        using (SqlConnection conexion = new SqlConnection(datosBD))
-        //        {
-        //            string instruccion = "UPDATE miTabla SET nombre = @nombre, edad = @edad WHERE  id = @id";
-        //            conexion.Open();
-
-        //            //se manda el comando
-        //            using (SqlCommand comando = new SqlCommand(instruccion, conexion))
-        //            {
-        //                //se cargan los parámetros
-        //                comando.Parameters.AddWithValue("@nombre", "Para borrar");
-        //                comando.Parameters.AddWithValue("@edad", 10);
-        //                comando.Parameters.AddWithValue("@id", 5);
-
-        //                int filasAfectadas = comando.ExecuteNonQuery();
-
-        //                //operador ternario, para anunciar si realizó o no la acción
-        //                Console.WriteLine(filasAfectadas > 0
-        //                    ? $"Éxito al {accion}"
-        //                    : $"Fracaso al {accion}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error al {accion}: {ex.Message}");
-        //    }
-        //}
-
-        //private static void Borrar(string datosBD)
-        //{
-        //    accion = "Borrar";
-        //    try
-        //    {
-        //        //se establece la conexión con la BD
-        //        using (SqlConnection conexion = new SqlConnection(datosBD))
-        //        {
-        //            string instruccion = "DELETE FROM miTabla WHERE  id = @id";
-        //            conexion.Open();
-
-        //            //se manda el comando
-        //            using (SqlCommand comando = new SqlCommand(instruccion, conexion))
-        //            {
-        //                //se cargan los parámetros
-        //                comando.Parameters.AddWithValue("@id", 5);
-
-        //                int filasAfectadas = comando.ExecuteNonQuery();
-
-        //                //operador ternario, para anunciar si realizó o no la acción
-        //                Console.WriteLine(filasAfectadas > 0
-        //                    ? $"Éxito al {accion}"
-        //                    : $"Fracaso al {accion}");
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine($"Error al {accion}: {ex.Message}");
-        //    }
-        //}
     }
 }
