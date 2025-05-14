@@ -20,13 +20,11 @@ namespace ConectividadApp.Controllers
 
         public List<GuardarDatosmiTabla> SeleccionarDatos(string cadenaConexion)
         {
-            string instruccion = "SELECT * FROM miTabla WHERE id IN (@id01, @id02, @id03)";
+            string instruccion = "SELECT * FROM miTabla WHERE id != @id";
 
             SqlParameter[] parametros = new SqlParameter[]
             {
-                new SqlParameter("@id01", 4),
-                new SqlParameter("@id02", 5),
-                new SqlParameter("@id03", 6)
+                new SqlParameter("@id", 5),
             };
 
             return _repositorio.Seleccionar(cadenaConexion, instruccion, parametros);
@@ -38,12 +36,38 @@ namespace ConectividadApp.Controllers
 
             SqlParameter[] parametros = new SqlParameter[]
             {
-                new SqlParameter("@nombre", "nuevo003"),
-                new SqlParameter("@edad", 10),
+                new SqlParameter("@nombre", "nuevo004"),
+                new SqlParameter("@edad", 11),
                 new SqlParameter("@activo", false)
-        };
+                };
 
             return _repositorio.Modificar_guardar("Insertar", cadenaConexion, instruccion, parametros);
+        }
+
+        public string ActualizarDatos(string cadenaConexion)
+        {
+            string instruccion = "UPDATE miTabla SET nombre = @nombre, edad = @edad WHERE id = @id";
+
+            SqlParameter[] parametros = new SqlParameter[]
+            {
+                new SqlParameter("@nombre", "Eeeeeeeeeeeee"),
+                new SqlParameter("@edad", 10),
+                new SqlParameter("@id", 8)
+            }; 
+
+            return _repositorio.Modificar_guardar("Actualizar", cadenaConexion, instruccion, parametros);
+        }
+
+        public string BorrarrDatos(string cadenaConexion)
+        {
+            string instruccion = "DELETE FROM miTabla WHERE  id = @id";
+
+            SqlParameter[] parametros = new SqlParameter[]
+            {
+                new SqlParameter("@id", 8)
+            };
+
+            return _repositorio.Modificar_guardar("Borrar", cadenaConexion, instruccion, parametros);
         }
     }
 }

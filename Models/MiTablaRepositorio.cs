@@ -113,70 +113,70 @@ namespace ConectividadApp.Models
         //    }
         //}
 
-        private static void Actualizar(string datosBD)
-        {
-            accion = "Actualizar";
-            try
-            {
-                //se establece la conexión con la BD
-                using (SqlConnection conexion = new SqlConnection(datosBD))
-                {
-                    string instruccion = "UPDATE miTabla SET nombre = @nombre, edad = @edad WHERE  id = @id";
-                    conexion.Open();
+        //private static void Actualizar(string datosBD)
+        //{
+        //    accion = "Actualizar";
+        //    try
+        //    {
+        //        //se establece la conexión con la BD
+        //        using (SqlConnection conexion = new SqlConnection(datosBD))
+        //        {
+        //            string instruccion = "UPDATE miTabla SET nombre = @nombre, edad = @edad WHERE  id = @id";
+        //            conexion.Open();
 
-                    //se manda el comando
-                    using (SqlCommand comando = new SqlCommand(instruccion, conexion))
-                    {
-                        //se cargan los parámetros
-                        comando.Parameters.AddWithValue("@nombre", "Para borrar");
-                        comando.Parameters.AddWithValue("@edad", 10);
-                        comando.Parameters.AddWithValue("@id", 5);
+        //            //se manda el comando
+        //            using (SqlCommand comando = new SqlCommand(instruccion, conexion))
+        //            {
+        //                //se cargan los parámetros
+        //                comando.Parameters.AddWithValue("@nombre", "Para borrar");
+        //                comando.Parameters.AddWithValue("@edad", 10);
+        //                comando.Parameters.AddWithValue("@id", 5);
 
-                        int filasAfectadas = comando.ExecuteNonQuery();
+        //                int filasAfectadas = comando.ExecuteNonQuery();
 
-                        //operador ternario, para anunciar si realizó o no la acción
-                        Console.WriteLine(filasAfectadas > 0
-                            ? $"Éxito al {accion}"
-                            : $"Fracaso al {accion}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al {accion}: {ex.Message}");
-            }
-        }
+        //                //operador ternario, para anunciar si realizó o no la acción
+        //                Console.WriteLine(filasAfectadas > 0
+        //                    ? $"Éxito al {accion}"
+        //                    : $"Fracaso al {accion}");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error al {accion}: {ex.Message}");
+        //    }
+        //}
 
-        private static void Borrar(string datosBD)
-        {
-            accion = "Borrar";
-            try
-            {
-                //se establece la conexión con la BD
-                using (SqlConnection conexion = new SqlConnection(datosBD))
-                {
-                    string instruccion = "DELETE FROM miTabla WHERE  id = @id";
-                    conexion.Open();
+        //private static void Borrar(string datosBD)
+        //{
+        //    accion = "Borrar";
+        //    try
+        //    {
+        //        //se establece la conexión con la BD
+        //        using (SqlConnection conexion = new SqlConnection(datosBD))
+        //        {
+        //            string instruccion = "DELETE FROM miTabla WHERE  id = @id";
+        //            conexion.Open();
 
-                    //se manda el comando
-                    using (SqlCommand comando = new SqlCommand(instruccion, conexion))
-                    {
-                        //se cargan los parámetros
-                        comando.Parameters.AddWithValue("@id", 5);
+        //            //se manda el comando
+        //            using (SqlCommand comando = new SqlCommand(instruccion, conexion))
+        //            {
+        //                //se cargan los parámetros
+        //                comando.Parameters.AddWithValue("@id", 5);
 
-                        int filasAfectadas = comando.ExecuteNonQuery();
+        //                int filasAfectadas = comando.ExecuteNonQuery();
 
-                        //operador ternario, para anunciar si realizó o no la acción
-                        Console.WriteLine(filasAfectadas > 0
-                            ? $"Éxito al {accion}"
-                            : $"Fracaso al {accion}");
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al {accion}: {ex.Message}");
-            }
-        }
+        //                //operador ternario, para anunciar si realizó o no la acción
+        //                Console.WriteLine(filasAfectadas > 0
+        //                    ? $"Éxito al {accion}"
+        //                    : $"Fracaso al {accion}");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error al {accion}: {ex.Message}");
+        //    }
+        //}
     }
 }

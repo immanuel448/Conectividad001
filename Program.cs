@@ -15,8 +15,8 @@ namespace ConectividadApp
         {
             string datosBD = "Server=.;Database=miBD;Trusted_Connection=true;TrustServerCertificate=true;";
 
-            //Seleccionar(datosBD);
-            Insertar(datosBD);
+            Seleccionar(datosBD);
+            //Insertar(datosBD);
 
         }
 
@@ -42,6 +42,22 @@ namespace ConectividadApp
         {
             //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
             var resultados = controller.InsertarDatos(CadenaConexion);
+            int contar = 1;
+            Console.WriteLine(resultados);
+        }
+
+        private static void Actualizar(string CadenaConexion)
+        {
+            //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
+            var resultados = controller.ActualizarDatos(CadenaConexion);
+            int contar = 1;
+            Console.WriteLine(resultados);
+        }
+
+        private static void Borrar(string CadenaConexion)
+        {
+            //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
+            var resultados = controller.BorrarrDatos(CadenaConexion);
             int contar = 1;
             Console.WriteLine(resultados);
         }
