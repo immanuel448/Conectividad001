@@ -119,6 +119,7 @@ namespace ConectividadApp.Controllers
         }
     }
 
+    //continuar con esto
     /*
      using System;
 using System.Collections.Generic;

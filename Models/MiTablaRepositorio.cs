@@ -32,7 +32,6 @@ namespace ConectividadApp.Models
                                     string nombre = reader.IsDBNull(1) ? "vacío" : reader.GetString(1);
                                     int edad = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
                                     bool activo = reader.IsDBNull(3) ? false : reader.GetBoolean(3);
-
                                     resultados.Add(new GuardarDatosmiTabla(identificador, nombre, edad, activo));
                                 }
                             }

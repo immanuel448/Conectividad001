@@ -22,7 +22,7 @@ namespace ConectividadApp
 
         private static void Seleccionar(string CadenaConexion)
         {
-            var idsParaBuscar = new List<int>() { 2, 3, 5, 8, 11 };
+            var idsParaBuscar = new List<int>() { 2, 3, 4, 5, 7, 8, 11 };
             //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
             var resultados = controller.SeleccionarDatos(CadenaConexion, idsParaBuscar);
             int contar = 1;
@@ -30,7 +30,7 @@ namespace ConectividadApp
             {
                 if (item.Errores == null)
                 {
-                    Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n Nombre: {item.Nombre},\n Edad: {item.Edad},\n Activo: {item.Activo}");
+                    Console.WriteLine($"\n-------------------- \n El dato número {contar++} es:\n ID: {item.Identificador} \n Nombre: {item.Nombre},\n Edad: {item.Edad},\n Activo: {item.Activo}");
                 }
                 else
                 {
