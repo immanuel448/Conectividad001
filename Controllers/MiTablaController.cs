@@ -21,46 +21,48 @@ namespace ConectividadApp.Controllers
             _repositorio = new MiTablaRepositorio();
         }
 
-        // Método auxiliar para crear un array de objetos SqlParameter
+        // Método auxiliar devuelve un array de objetos SqlParameter
         private SqlParameter[] CrearParametros(string[] nombresParametros, object[] valores)
         {
             if (nombresParametros.Length != valores.Length)
                 throw new ArgumentException("El número de nombres de parámetros no coincide con el número de valores.");
 
-            //en este array se van a colocar objetos de SqlParameter
+            //en este array se van a colocar objets de SqlParameter
             var parametros = new SqlParameter[nombresParametros.Length];
             for (int i = 0; i < nombresParametros.Length; i++)
             {
+                //la estructura es "new SqlParameter(@nombre", "El nombre");"
                 parametros[i] = new SqlParameter(nombresParametros[i], valores[i]);
             }
             return parametros;
         }
 
         // Método que ejecuta Insertar, Actualizar o Borrar dependiendo de la operación
-        private string EjecutarOperacion(string operacion, string cadenaConexion, string instruccion, string[] nombresParametros, object[] valores)
+        private string EjecutarOperacion(string nombreOperacion, string cadenaConexion, string instruccion, string[] nombresParametros, object[] valores)
         {
             var parametros = CrearParametros(nombresParametros, valores);
-            return _repositorio.Modificar_guardar(operacion, cadenaConexion, instruccion, parametros);
+            return _repositorio.Modificar_guardar(nombreOperacion, cadenaConexion, instruccion, parametros);
         }
 
 
         // Seleccionar Datos, aquí no se usa el método "EjecutarOperacion"
-        public List<GuardarDatosmiTabla> SeleccionarDatos(string cadenaConexion, List<int> identificadores)
+        public List<DatosMiTabla> SeleccionarDatos(string cadenaConexion, List<int> identificadores)
         {
+            //si no hay parametros, se termina
             if (identificadores == null || identificadores.Count == 0)
             {
-                return new List<GuardarDatosmiTabla>();
+                return new List<DatosMiTabla>();
             }
 
-            // Crear parámetros
+            // LINQ, Crea nombre de los parámetros estructura "@id..."
             var nombresParametros = identificadores.Select(i => "@id" + i).ToList();
-            //aquí se hace uso de LINQ, hay que pasar un array de objet
-            var parametros = identificadores.Cast<object>().ToArray();
+            //aquí se hace uso de LINQ,se ocupa pasar un array de objets
+            var valores = identificadores.Cast<object>().ToArray();
 
             // Crear instrucción SQL, "string.Join" une todos los elementos de la lista
             string instruccion = $"SELECT * FROM miTabla WHERE id IN ({string.Join(", ", nombresParametros)})";
 
-            return _repositorio.Seleccionar(cadenaConexion, instruccion, CrearParametros(nombresParametros.ToArray(), parametros));
+            return _repositorio.Seleccionar(cadenaConexion, instruccion, CrearParametros(nombresParametros.ToArray(), valores));
         }
 
         // Insertar Datos

@@ -26,6 +26,7 @@ namespace ConectividadApp
             //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
             var resultados = controller.SeleccionarDatos(CadenaConexion, idsParaBuscar);
             int contar = 1;
+            //con esto se presentan los resultados
             foreach (var item in resultados)
             {
                 if (item.Errores == null)
@@ -41,25 +42,22 @@ namespace ConectividadApp
 
         private static void Insertar(string CadenaConexion)
         {
-            //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
+            //devuelve un string
             var resultados = controller.InsertarDatos(CadenaConexion);
-            int contar = 1;
             Console.WriteLine(resultados);
         }
 
         private static void Actualizar(string CadenaConexion)
         {
-            //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
+            //devuelve un string
             var resultados = controller.ActualizarDatos(CadenaConexion);
-            int contar = 1;
             Console.WriteLine(resultados);
         }
 
         private static void Borrar(string CadenaConexion)
         {
-            //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
+            //devuelve un string
             var resultados = controller.BorrarDatos(CadenaConexion);
-            int contar = 1;
             Console.WriteLine(resultados);
         }
     }

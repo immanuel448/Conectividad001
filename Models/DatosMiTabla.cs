@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConectividadApp.Models
 {
-    public class GuardarDatosmiTabla
+    public class DatosMiTabla
     {
         //todos los datos de la tabla "miTabla"
         public int Identificador { get; set; }
@@ -17,7 +17,7 @@ namespace ConectividadApp.Models
         public string Errores { get; set; }
 
 
-        public GuardarDatosmiTabla(int identificador, string nombre, int edad, bool activo, string errores = null)
+        public DatosMiTabla(int identificador = 0, string nombre = "", int edad = 0, bool activo = false, string errores = null)
         {
             Identificador = identificador;
             Nombre = nombre;

@@ -9,10 +9,10 @@ namespace ConectividadApp.Models
 {
     public class MiTablaRepositorio
     {
-        //mètodo exclusivo para seleccionar datos de la BD
-        public List<GuardarDatosmiTabla> Seleccionar(string datosBD, string instruccion, SqlParameter[] parametros)
+        //método exclusivo para seleccionar datos de la BD
+        public List<DatosMiTabla> Seleccionar(string datosBD, string instruccion, SqlParameter[] parametros)
         {
-            var resultados = new List<GuardarDatosmiTabla>(); 
+            var resultados = new List<DatosMiTabla>(); 
             try
             {
                 using (SqlConnection conexion = new SqlConnection(datosBD))
@@ -32,12 +32,12 @@ namespace ConectividadApp.Models
                                     string nombre = reader.IsDBNull(1) ? "vacío" : reader.GetString(1);
                                     int edad = reader.IsDBNull(2) ? 0 : reader.GetInt32(2);
                                     bool activo = reader.IsDBNull(3) ? false : reader.GetBoolean(3);
-                                    resultados.Add(new GuardarDatosmiTabla(identificador, nombre, edad, activo));
+                                    resultados.Add(new DatosMiTabla(identificador, nombre, edad, activo));
                                 }
                             }
                             else
                             {
-                                resultados.Add(new GuardarDatosmiTabla(0, "", 0, false, "No se encontraron datos."));
+                                resultados.Add(new DatosMiTabla(errores: "No se encontraron datos."));
                             }
                         }
                     }
@@ -45,13 +45,13 @@ namespace ConectividadApp.Models
             }
             catch (Exception ex)
             {
-                resultados.Add(new GuardarDatosmiTabla(0, "", 0, false, $"Error: {ex.Message}"));
+                resultados.Add(new DatosMiTabla(errores: $"Error: {ex.Message}"));
             }
 
             return resultados;
         }
 
-        //mètodo comùn para Create, Update y Delete
+        //Método común para Create, Update y Delete
         public string Modificar_guardar(string accion, string datosBD, string instruccion, SqlParameter[] parametros)
         {
             string descripcion = null;
