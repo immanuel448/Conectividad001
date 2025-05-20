@@ -22,7 +22,7 @@ namespace ConectividadApp
 
         private static void Seleccionar(string CadenaConexion)
         {
-            var idsParaBuscar = new List<int>() { 2, 3, 4, 5, 7, 8, 11 };
+            var idsParaBuscar = new List<int>() { 1,2,3,4 };
             //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
             var resultados = controller.SeleccionarDatos(CadenaConexion, idsParaBuscar);
             int contar = 1;
@@ -58,7 +58,7 @@ namespace ConectividadApp
         private static void Borrar(string CadenaConexion)
         {
             //se usa un método del objeto creado, devuelve un objeto que contiene los resultados
-            var resultados = controller.BorrarrDatos(CadenaConexion);
+            var resultados = controller.BorrarDatos(CadenaConexion);
             int contar = 1;
             Console.WriteLine(resultados);
         }
