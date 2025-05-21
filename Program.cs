@@ -25,7 +25,7 @@ namespace ConectividadApp
             string datosBD = configuration.GetConnectionString("MiConexionSQL");
 
             Seleccionar(datosBD);
-            //Insertar(datosBD);
+            Insertar(datosBD);
         }
 
 
@@ -52,21 +52,21 @@ namespace ConectividadApp
         private static void Insertar(string CadenaConexion)
         {
             //devuelve un string
-            var resultados = controller.InsertarDatos(CadenaConexion);
+            var resultados = controller.InsertarDatos(CadenaConexion, "nuevoNombre", 14, false);
             Console.WriteLine(resultados);
         }
 
         private static void Actualizar(string CadenaConexion)
         {
             //devuelve un string
-            var resultados = controller.ActualizarDatos(CadenaConexion);
+            var resultados = controller.ActualizarDatos(CadenaConexion, "NombreCambiado", 50 , 7);
             Console.WriteLine(resultados);
         }
 
         private static void Borrar(string CadenaConexion)
         {
             //devuelve un string
-            var resultados = controller.BorrarDatos(CadenaConexion);
+            var resultados = controller.BorrarDatos(CadenaConexion, 5);
             Console.WriteLine(resultados);
         }
     }

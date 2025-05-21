@@ -40,60 +40,78 @@ namespace ConectividadApp.Controllers
         // Método que ejecuta Insertar, Actualizar o Borrar dependiendo de la operación
         private string EjecutarOperacion(string nombreOperacion, string cadenaConexion, string instruccion, string[] nombresParametros, object[] valores)
         {
-            var parametros = CrearParametros(nombresParametros, valores);
-            return _repositorio.Modificar_guardar(nombreOperacion, cadenaConexion, instruccion, parametros);
+            try
+            {
+                var parametros = CrearParametros(nombresParametros, valores);
+                return _repositorio.Modificar_guardar(nombreOperacion, cadenaConexion, instruccion, parametros);
+            }
+            catch (Exception ex)
+            {
+                return $"Error en la operación {nombreOperacion}: {ex.Message}";
+            }
+
         }
 
 
         // Seleccionar Datos, aquí no se usa el método "EjecutarOperacion"
         public List<DatosMiTabla> SeleccionarDatos(string cadenaConexion, List<int> identificadores)
         {
-            //si no hay parametros, se termina
-            if (identificadores == null || identificadores.Count == 0)
+            try
             {
-                return new List<DatosMiTabla>();
+                //si no hay parametros, se termina
+                if (identificadores == null || identificadores.Count == 0)
+                {
+                    return new List<DatosMiTabla>();
+                }
+
+                // LINQ, Crea nombre de los parámetros estructura "@id..."
+                var nombresParametros = identificadores.Select(i => "@id" + i).ToList();
+                //aquí se hace uso de LINQ,se ocupa pasar un array de objets
+                var valores = identificadores.Cast<object>().ToArray();
+
+                // Crear instrucción SQL, "string.Join" une todos los elementos de la lista
+                string instruccion = $"SELECT * FROM miTabla WHERE id IN ({string.Join(", ", nombresParametros)})";
+
+                return _repositorio.Seleccionar(cadenaConexion, instruccion, CrearParametros(nombresParametros.ToArray(), valores));
+
             }
-
-            // LINQ, Crea nombre de los parámetros estructura "@id..."
-            var nombresParametros = identificadores.Select(i => "@id" + i).ToList();
-            //aquí se hace uso de LINQ,se ocupa pasar un array de objets
-            var valores = identificadores.Cast<object>().ToArray();
-
-            // Crear instrucción SQL, "string.Join" une todos los elementos de la lista
-            string instruccion = $"SELECT * FROM miTabla WHERE id IN ({string.Join(", ", nombresParametros)})";
-
-            return _repositorio.Seleccionar(cadenaConexion, instruccion, CrearParametros(nombresParametros.ToArray(), valores));
+            catch (Exception ex)
+            {
+                var resultados = new List<DatosMiTabla>();
+                resultados.Add(new DatosMiTabla(errores: $"Error al seleccionar {ex.Message}"));
+                return resultados;
+            }
         }
 
         // Insertar Datos
-        public string InsertarDatos(string cadenaConexion)
+        public string InsertarDatos(string cadenaConexion, string nombre, int edad, bool activo)
         {
             string instruccion = "INSERT INTO miTabla (nombre, edad, activo) VALUES (@nombre, @edad, @activo)";
 
             string[] nombresParametros = { "@nombre", "@edad", "@activo" };
-            object[] valores = { "nuevo004", 11, false };
+            object[] valores = { nombre, edad, activo};
 
             return EjecutarOperacion("Insertar", cadenaConexion, instruccion, nombresParametros, valores);
         }
 
         // Actualizar Datos
-        public string ActualizarDatos(string cadenaConexion)
+        public string ActualizarDatos(string cadenaConexion, string nombre, int edad, int id)
         {
             string instruccion = "UPDATE miTabla SET nombre = @nombre, edad = @edad WHERE id = @id";
 
             string[] nombresParametros = { "@nombre", "@edad", "@id" };
-            object[] valores = { "Eeeeeeeeeeeee", 10, 8 };
+            object[] valores = {nombre, edad, id };
 
             return EjecutarOperacion("Actualizar", cadenaConexion, instruccion, nombresParametros, valores);
         }
 
         // Borrar Datos
-        public string BorrarDatos(string cadenaConexion)
+        public string BorrarDatos(string cadenaConexion, int id)
         {
             string instruccion = "DELETE FROM miTabla WHERE id = @id";
 
             string[] nombresParametros = { "@id" };
-            object[] valores = { 8 };
+            object[] valores = { id };
 
             return EjecutarOperacion("Borrar", cadenaConexion, instruccion, nombresParametros, valores);
         }
