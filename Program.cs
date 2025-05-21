@@ -1,6 +1,7 @@
 ﻿
 using ConectividadApp.Controllers;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Diagnostics.Metrics;
 
@@ -13,7 +14,15 @@ namespace ConectividadApp
 
         public static void Main(string[] args)
         {
-            string datosBD = "Server=.;Database=miBD;Trusted_Connection=true;TrustServerCertificate=true;";
+            // Construir configuración para leer appsettings.json
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            IConfiguration configuration = builder.Build();
+
+            // Obtener cadena de conexión desde el archivo
+            string datosBD = configuration.GetConnectionString("MiConexionSQL");
 
             Seleccionar(datosBD);
             //Insertar(datosBD);
