@@ -27,9 +27,12 @@ El objetivo de este repositorio es mostrar una implementación clara y concisa d
 
 ## Uso
 
-1. Configura tu cadena de conexión en el archivo correspondiente del modelo.
-2. Ejecuta el proyecto desde un entorno compatible con C# (como Visual Studio).
-3. Observa cómo se realiza la conexión y manipulación de los datos.
+1. Configura la cadena de conexión en el archivo `Program.cs`.
+2. La cadena de conexión es inyectada al controlador, que a su vez la pasa al modelo para gestionar el acceso a la base de datos.
+3. Ejecuta el proyecto desde un entorno compatible con C# (Visual Studio).
+4. Observa cómo se realiza la conexión y manipulación de los datos a través de la API.
+
+> Este enfoque utiliza buenas prácticas modernas como la inyección de dependencias y separación de responsabilidades.
 
 ## Contribuciones
 
