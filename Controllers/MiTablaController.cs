@@ -49,7 +49,6 @@ namespace ConectividadApp.Controllers
             {
                 return $"Error en la operación {nombreOperacion}: {ex.Message}";
             }
-
         }
 
 

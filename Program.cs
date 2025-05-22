@@ -24,10 +24,12 @@ namespace ConectividadApp
             // Obtener cadena de conexión desde el archivo
             string datosBD = configuration.GetConnectionString("MiConexionSQL");
 
-            Seleccionar(datosBD);
-            Insertar(datosBD);
+            //Seleccionar(datosBD);
+            for (int contar = 30; contar < 35; contar++)
+            {
+                Insertar(datosBD, $"e00{contar}");
+            }
         }
-
 
         private static void Seleccionar(string CadenaConexion)
         {
@@ -49,17 +51,17 @@ namespace ConectividadApp
             }
         }
 
-        private static void Insertar(string CadenaConexion)
+        private static void Insertar(string CadenaConexion, string nombreDato)
         {
             //devuelve un string
-            var resultados = controller.InsertarDatos(CadenaConexion, "nuevoNombre", 14, false);
+            var resultados = controller.InsertarDatos(CadenaConexion, nombreDato, 15, false);
             Console.WriteLine(resultados);
         }
 
         private static void Actualizar(string CadenaConexion)
         {
             //devuelve un string
-            var resultados = controller.ActualizarDatos(CadenaConexion, "NombreCambiado", 50 , 7);
+            var resultados = controller.ActualizarDatos(CadenaConexion, "jeje", 50 , 15);
             Console.WriteLine(resultados);
         }
 
